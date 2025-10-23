@@ -2,6 +2,8 @@ package org.sodogynyba;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.sodogynyba.pagrindinesklases.Game;
+import org.sodogynyba.pagrindinesklases.Tile;
 
 import javax.swing.*;
 
@@ -22,12 +24,10 @@ public class GamePanel extends JPanel {
         moneyLabel = new JLabel("Money: 0");
 
         add(startWaveButton);
-
         add(healthLabel);
-
         add(waveLabel);
-
         add(moneyLabel);
-
     }
+
+
 }

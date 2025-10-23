@@ -85,5 +85,7 @@ public class Game {
     public boolean isGameWon(){
         return !isWaveActive && waveNumber == 1;
     }
-
+    boolean isPathTile(int row, int col) {
+        return path.isPathTile(new Point(col, row));
+    }
 }
