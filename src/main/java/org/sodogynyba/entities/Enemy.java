@@ -14,6 +14,7 @@ public class Enemy {
     private int damage;
     private int baseSpeed;
     private int speed;
+    private int reward;
     private Point position;
     private boolean alive;
     private Path path;
@@ -21,11 +22,12 @@ public class Enemy {
     private double slowAmount = 0;
     private double slowEndTime = 0;
 
-    public Enemy(int health, int damage, int speed, Path path) {
+    public Enemy(int health, int damage, int speed, int reward, Path path) {
         this.health = health;
         this.damage = damage;
         this.baseSpeed = speed;
         this.speed = speed;
+        this.reward = reward;
         this.path = path;
         this.pathIndex = 0;
 
@@ -64,7 +66,7 @@ public class Enemy {
     }
     public void takeDamage(int damage) {
         health -= damage;
-        if (health < 0){
+        if (health <= 0){
             health = 0;
             alive = false;
         }

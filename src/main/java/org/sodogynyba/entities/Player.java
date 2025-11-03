@@ -19,11 +19,13 @@ public class Player {
     public boolean canAfford(Tower tower) {
         return budget >= tower.getCost();
     }
-
     public void placeTower(Tower tower) {
         if (canAfford(tower)) {
             towers.add(tower);
             budget -= tower.getCost();
         }
+    }
+    public void addBudget(int amount) {
+        this.budget += amount;
     }
 }

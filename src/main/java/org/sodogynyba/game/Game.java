@@ -88,6 +88,7 @@ public class Game {
             }
             if(enemy.hasReachedEnd()){
                 garden.takeDamage(enemy.getDamage());
+                enemy.setAlive(false);
             }
         }
         for (Tower tower : player.getTowers()) {
@@ -100,6 +101,11 @@ public class Game {
             projectile.update();
         }
         projectiles.removeIf(p -> !p.isActive());
+        for(Enemy enemy : activeEnemies) {
+            if(!enemy.isAlive()) {
+                player.addBudget(enemy.getReward());
+            }
+        }
         activeEnemies.removeIf(enemy -> !enemy.isAlive());
         if (wave.isWaveCleared(activeEnemies)) {
             System.out.println("Wave " + (currentWave + 1) + " cleared!");
