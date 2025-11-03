@@ -1,0 +1,82 @@
+package org.sodogynyba.entities;
+
+import lombok.Getter;
+import lombok.Setter;
+import org.sodogynyba.path.Path;
+
+import java.awt.*;
+
+@Getter
+@Setter
+
+public class Enemy {
+    private int health;
+    private int damage;
+    private int baseSpeed;
+    private int speed;
+    private Point position;
+    private boolean alive;
+    private Path path;
+    private int pathIndex;
+    private double slowAmount = 0;
+    private double slowEndTime = 0;
+
+    public Enemy(int health, int damage, int speed, Path path) {
+        this.health = health;
+        this.damage = damage;
+        this.baseSpeed = speed;
+        this.speed = speed;
+        this.path = path;
+        this.pathIndex = 0;
+
+        Point start = path.getWaypoint(pathIndex);
+        this.position = new Point(start); // start position
+        this.alive = true;
+    }
+
+    public void move() {
+        if (!alive) return;
+
+        if(slowAmount > 0 && System.currentTimeMillis() > slowEndTime){
+            slowAmount = 0;
+            speed = baseSpeed;
+        }
+
+        Point target = path.getWaypoint(pathIndex);
+        if (target == null) return;
+
+        double dx = target.x - position.x;
+        double dy = target.y - position.y;
+        double distance = Math.sqrt(dx * dx + dy * dy);
+
+        if(distance <= speed) {
+            position.x = target.x;
+            position.y = target.y;
+            pathIndex++;
+            if (hasReachedEnd()) {
+                alive = false;
+            }
+        }
+        else {
+            position.x += (int) (speed * dx / distance);
+            position.y += (int) (speed * dy / distance);
+        }
+    }
+    public void takeDamage(int damage) {
+        health -= damage;
+        if (health < 0){
+            health = 0;
+            alive = false;
+        }
+    }
+    public void applySlow(double amount, long duration){
+        if(amount > slowAmount){
+            slowAmount = amount;
+            slowEndTime = System.currentTimeMillis() + duration;
+            speed = (int)(baseSpeed * (1 - slowAmount));
+        }
+    }
+    public boolean hasReachedEnd(){
+        return pathIndex >= path.getLength();
+    }
+}
