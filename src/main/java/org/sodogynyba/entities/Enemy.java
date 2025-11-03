@@ -7,7 +7,6 @@ import org.sodogynyba.path.Path;
 import java.awt.*;
 
 @Getter
-@Setter
 
 public class Enemy {
     private int health;
