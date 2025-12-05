@@ -4,11 +4,11 @@ import lombok.Getter;
 import org.sodogynyba.entities.towers.Tower;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-@Getter
-
 public class Player {
+    @Getter
     private int budget;
     private List<Tower> towers;
 
@@ -28,5 +28,8 @@ public class Player {
     }
     public void addBudget(int amount) {
         this.budget += amount;
+    }
+    public List<Tower> getTowers() {
+        return Collections.unmodifiableList(towers);
     }
 }

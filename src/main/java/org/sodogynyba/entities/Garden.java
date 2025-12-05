@@ -2,9 +2,8 @@ package org.sodogynyba.entities;
 
 import lombok.Getter;
 
-@Getter
-
 public class Garden {
+    @Getter
     private int health;
 
     public Garden(int health) {
