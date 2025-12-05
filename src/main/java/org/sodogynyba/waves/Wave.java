@@ -3,7 +3,7 @@ package org.sodogynyba.waves;
 import lombok.Getter;
 import org.sodogynyba.entities.enemies.Enemy;
 import org.sodogynyba.entities.enemies.FastEnemy;
-import org.sodogynyba.entities.enemies.RegularEnemy;
+import org.sodogynyba.entities.enemies.BasicEnemy;
 import org.sodogynyba.entities.enemies.TankEnemy;
 import org.sodogynyba.path.Path;
 
@@ -46,12 +46,12 @@ public class Wave {
         Path chosenPath = paths.get(random.nextInt(paths.size()));
         int typeChance = random.nextInt(100);
         if(waveNumber < 2){
-            return new RegularEnemy(chosenPath);
+            return new BasicEnemy(chosenPath);
         }else if(waveNumber < 4){
-            if(typeChance < 70) return new RegularEnemy(chosenPath);
+            if(typeChance < 70) return new BasicEnemy(chosenPath);
             else return new FastEnemy(chosenPath);
         }else {
-            if(typeChance < 50) return new RegularEnemy(chosenPath);
+            if(typeChance < 50) return new BasicEnemy(chosenPath);
             else if(typeChance < 80) return new FastEnemy(chosenPath);
             else return new TankEnemy(chosenPath);
         }

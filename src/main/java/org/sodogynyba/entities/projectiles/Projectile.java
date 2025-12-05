@@ -5,14 +5,13 @@ import org.sodogynyba.entities.enemies.Enemy;
 
 import java.awt.*;
 
-@Getter
-
 public abstract class Projectile {
-    protected Point position;
-    protected Enemy target;
-    protected int speed;
-    protected int damage;
-    protected boolean active;
+    private Point position;
+    private Enemy target;
+    private int speed;
+    private int damage;
+    @Getter
+    private boolean active;
 
     public Projectile(Point startPosition, Enemy target, int speed, int damage) {
         this.position = new Point(startPosition);
@@ -35,20 +34,28 @@ public abstract class Projectile {
         if (distance < speed) {
             hitTarget();
         } else {
-            position.x += (int) (dx / distance * speed);
-            position.y += (int) (dy / distance * speed);
+            double stepX = calculateStep(dx, distance);
+            double stepY = calculateStep(dy, distance);
+            moveBy(stepX, stepY);
         }
     }
-
     public void hitTarget() {
         target.takeDamage(damage);
-        onHitEffect();     // << This is new
+        onHitEffect();
         active = false;
     }
-
-    protected abstract void onHitEffect();  // << Subclasses override this
-
-    public boolean isActive() {
-        return active;
+    protected abstract void onHitEffect();
+    private void moveBy(double dx, double dy) {
+        position.x += (int) dx;
+        position.y += (int) dy;
     }
+    private double calculateStep(double delta, double distance) {
+        return delta / distance * speed;
+    }
+    protected Enemy getTarget() { return target; }
+    public Point getPositionCopy() {
+        return new Point(position);
+    }
+    public int getX() { return position.x; }
+    public int getY() { return position.y; }
 }

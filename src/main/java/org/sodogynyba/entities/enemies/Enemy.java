@@ -87,7 +87,7 @@ public class Enemy {
         if (listener != null) listener.onEnemyReachedEnd(this);
     }
     public Point getPositionCopy() {
-        return new Point(position.x, position.y);
+        return new Point(position);
     }
     public int getX() { return position.x; }
     public int getY() { return position.y; }

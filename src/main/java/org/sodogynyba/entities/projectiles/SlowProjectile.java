@@ -17,6 +17,6 @@ public class SlowProjectile extends Projectile {
 
     @Override
     protected void onHitEffect() {
-        target.applySlow(slowAmount, slowDuration);
+        getTarget().applySlow(slowAmount, slowDuration);
     }
 }

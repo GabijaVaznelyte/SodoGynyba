@@ -232,7 +232,7 @@ public class GameLauncher {
                 g.setColor(Color.ORANGE);
                 for(Projectile projectile : game.getProjectiles()){
                     if(projectile.isActive()){
-                        Point p = projectile.getPosition();
+                        Point p = projectile.getPositionCopy();
                         g.fillOval(p.x, p.y, 6, 6);
                     }
                 }
