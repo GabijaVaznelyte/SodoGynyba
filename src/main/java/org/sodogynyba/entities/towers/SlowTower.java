@@ -2,6 +2,7 @@ package org.sodogynyba.entities.towers;
 
 import org.sodogynyba.entities.projectiles.Projectile;
 import org.sodogynyba.entities.enemies.Enemy;
+import org.sodogynyba.entities.projectiles.SlowProjectile;
 
 import java.awt.*;
 import java.util.List;
@@ -25,7 +26,7 @@ public class SlowTower extends Tower {
         for(Enemy enemy : enemies){
             if(enemy.isAlive() && isInRange(enemy)){
                 setLastAttackTime(currentTime);
-                return new Projectile(new Point(getPosition()), enemy, 16, getDamage(), slowAmount, slowDuration);
+                return new SlowProjectile(new Point(getPosition()), enemy, 16, getDamage(), slowAmount, slowDuration);
             }
         }
         return null;

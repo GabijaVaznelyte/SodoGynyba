@@ -2,6 +2,7 @@ package org.sodogynyba.entities.towers;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.sodogynyba.entities.projectiles.BasicProjectile;
 import org.sodogynyba.entities.projectiles.Projectile;
 import org.sodogynyba.entities.enemies.Enemy;
 
@@ -34,7 +35,7 @@ public class Tower {
         for (Enemy enemy : enemies) {
             if (enemy.isAlive() && isInRange(enemy)) {
                 lastAttackTime = currentTime;
-                return new Projectile(new Point(position), enemy, 16, damage);
+                return new BasicProjectile(new Point(position), enemy, 16, damage);
             }
         }
         return null;

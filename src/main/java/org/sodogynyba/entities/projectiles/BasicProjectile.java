@@ -10,8 +10,8 @@ public class BasicProjectile extends Projectile {
         super(startPosition, target, speed, damage);
     }
 
-    //@Override
+    @Override
     protected void onHitEffect() {
-        // Basic projectile has no status
+        // No status effects for basic projectile
     }
 }

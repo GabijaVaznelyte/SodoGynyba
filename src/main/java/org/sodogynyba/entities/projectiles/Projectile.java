@@ -7,16 +7,14 @@ import java.awt.*;
 
 @Getter
 
-public class Projectile {
-    private Point position;
-    private Enemy target;
-    private int speed;
-    private int damage;
-    private boolean active;
-    private double slowAmount = 0;
-    private long slowDuration = 0;
+public abstract class Projectile {
+    protected Point position;
+    protected Enemy target;
+    protected int speed;
+    protected int damage;
+    protected boolean active;
 
-    public Projectile(Point startPosition, Enemy target,  int speed, int damage) {
+    public Projectile(Point startPosition, Enemy target, int speed, int damage) {
         this.position = new Point(startPosition);
         this.target = target;
         this.speed = speed;
@@ -24,34 +22,33 @@ public class Projectile {
         this.active = true;
     }
 
-    public Projectile(Point startPosition, Enemy target, int speed, int damage, double slowAmount, long slowDuration) {
-        this(startPosition, target, speed, damage);
-        this.slowAmount = slowAmount;
-        this.slowDuration = slowDuration;
-    }
-
-    public void update(){
-        if(target == null || !target.isAlive()){
+    public void update() {
+        if (target == null || !target.isAlive()) {
             active = false;
             return;
         }
+
         double dx = target.getX() - position.x;
         double dy = target.getY() - position.y;
-        double distance = Math.sqrt(dx * dx + dy * dy);
+        double distance = Math.hypot(dx, dy);
 
-        if(distance < speed){
+        if (distance < speed) {
             hitTarget();
-        }
-        else{
+        } else {
             position.x += (int) (dx / distance * speed);
             position.y += (int) (dy / distance * speed);
         }
     }
-    public void hitTarget(){
+
+    public void hitTarget() {
         target.takeDamage(damage);
-        if(slowAmount > 0 && slowDuration > 0){
-            target.applySlow(slowAmount, slowDuration);
-        }
+        onHitEffect();     // << This is new
         active = false;
+    }
+
+    protected abstract void onHitEffect();  // << Subclasses override this
+
+    public boolean isActive() {
+        return active;
     }
 }
