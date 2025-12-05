@@ -1,4 +1,4 @@
-package org.sodogynyba.entities;
+package org.sodogynyba.entities.enemies;
 
 import org.sodogynyba.path.Path;
 

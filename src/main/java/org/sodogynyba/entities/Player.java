@@ -1,6 +1,7 @@
 package org.sodogynyba.entities;
 
 import lombok.Getter;
+import org.sodogynyba.entities.towers.Tower;
 
 import java.util.ArrayList;
 import java.util.List;

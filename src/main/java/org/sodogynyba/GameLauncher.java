@@ -1,6 +1,12 @@
 package org.sodogynyba;
 
-import org.sodogynyba.entities.*;
+import org.sodogynyba.entities.enemies.Enemy;
+import org.sodogynyba.entities.enemies.FastEnemy;
+import org.sodogynyba.entities.enemies.TankEnemy;
+import org.sodogynyba.entities.projectiles.Projectile;
+import org.sodogynyba.entities.towers.RegularTower;
+import org.sodogynyba.entities.towers.SlowTower;
+import org.sodogynyba.entities.towers.Tower;
 import org.sodogynyba.game.Game;
 import org.sodogynyba.path.Path;
 
@@ -125,7 +131,7 @@ public class GameLauncher {
 
         gameFrame.setVisible(true);
 
-        gameTimer = new Timer(500, e -> updateGame());
+        gameTimer = new Timer(200, e -> updateGame());
         gameTimer.start();
     }
     public static void setupInfoPanel(){
@@ -218,7 +224,7 @@ public class GameLauncher {
                     else{
                         g.setColor(Color.RED);
                     }
-                    Point p = enemy.getPosition();
+                    Point p = enemy.getPositionCopy();
                     g.fillRect(p.x, p.y, BLOCK_SIZE, BLOCK_SIZE);
                 }
 

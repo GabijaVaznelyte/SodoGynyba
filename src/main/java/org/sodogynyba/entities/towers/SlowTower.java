@@ -1,9 +1,12 @@
-package org.sodogynyba.entities;
+package org.sodogynyba.entities.towers;
+
+import org.sodogynyba.entities.projectiles.Projectile;
+import org.sodogynyba.entities.enemies.Enemy;
 
 import java.awt.*;
 import java.util.List;
 
-public class SlowTower extends Tower{
+public class SlowTower extends Tower {
     private final double slowAmount;
     private final long slowDuration;
 

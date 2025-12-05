@@ -1,10 +1,10 @@
 package org.sodogynyba.waves;
 
 import lombok.Getter;
-import org.sodogynyba.entities.Enemy;
-import org.sodogynyba.entities.FastEnemy;
-import org.sodogynyba.entities.RegularEnemy;
-import org.sodogynyba.entities.TankEnemy;
+import org.sodogynyba.entities.enemies.Enemy;
+import org.sodogynyba.entities.enemies.FastEnemy;
+import org.sodogynyba.entities.enemies.RegularEnemy;
+import org.sodogynyba.entities.enemies.TankEnemy;
 import org.sodogynyba.path.Path;
 
 import java.util.List;
@@ -31,16 +31,16 @@ public class Wave {
         this.random = new Random();
     }
 
-    public void updateSpawn(List<Enemy> activeEnemies) {
-        if(spawnedCount >= totalEnemies) return;
+    public Enemy updateSpawn() {
+        if(spawnedCount >= totalEnemies) return null;
         if (spawnCooldown > 0) {
             spawnCooldown--;
-            return;
+            return null;
         }
         Enemy enemy = createEnemyForWave();
-        activeEnemies.add(enemy);
         spawnedCount++;
         spawnCooldown = spawnInterval;
+        return enemy;
     }
     private Enemy createEnemyForWave(){
         Path chosenPath = paths.get(random.nextInt(paths.size()));

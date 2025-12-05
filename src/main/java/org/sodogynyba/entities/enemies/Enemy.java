@@ -1,4 +1,4 @@
-package org.sodogynyba.entities;
+package org.sodogynyba.entities.enemies;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,20 +6,23 @@ import org.sodogynyba.path.Path;
 
 import java.awt.*;
 
-@Getter
-
 public class Enemy {
     private int health;
+    @Getter
     private int damage;
     private int baseSpeed;
     private int speed;
+    @Getter
     private int reward;
     private Point position;
+    @Getter
     private boolean alive;
     private Path path;
     private int pathIndex;
     private double slowAmount = 0;
     private double slowEndTime = 0;
+    @Setter
+    private EnemyListener listener;
 
     public Enemy(int health, int damage, int speed, int reward, Path path) {
         this.health = health;
@@ -31,14 +34,14 @@ public class Enemy {
         this.pathIndex = 0;
 
         Point start = path.getWaypoint(pathIndex);
-        this.position = new Point(start); // start position
+        this.position = new Point(start);
         this.alive = true;
     }
 
     public void move() {
         if (!alive) return;
 
-        if(slowAmount > 0 && System.currentTimeMillis() > slowEndTime){
+        if (slowAmount > 0 && System.currentTimeMillis() > slowEndTime) {
             slowAmount = 0;
             speed = baseSpeed;
         }
@@ -50,15 +53,14 @@ public class Enemy {
         double dy = target.y - position.y;
         double distance = Math.sqrt(dx * dx + dy * dy);
 
-        if(distance <= speed) {
+        if (distance <= speed) {
             position.x = target.x;
             position.y = target.y;
             pathIndex++;
             if (hasReachedEnd()) {
-                alive = false;
+                reachEnd();
             }
-        }
-        else {
+        } else {
             position.x += (int) (speed * dx / distance);
             position.y += (int) (speed * dy / distance);
         }
@@ -80,4 +82,13 @@ public class Enemy {
     public boolean hasReachedEnd(){
         return pathIndex >= path.getLength();
     }
+    private void reachEnd() {
+        alive = false;
+        if (listener != null) listener.onEnemyReachedEnd(this);
+    }
+    public Point getPositionCopy() {
+        return new Point(position.x, position.y);
+    }
+    public int getX() { return position.x; }
+    public int getY() { return position.y; }
 }

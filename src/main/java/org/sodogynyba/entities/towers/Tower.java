@@ -1,7 +1,9 @@
-package org.sodogynyba.entities;
+package org.sodogynyba.entities.towers;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.sodogynyba.entities.projectiles.Projectile;
+import org.sodogynyba.entities.enemies.Enemy;
 
 import java.awt.*;
 import java.util.List;
@@ -39,6 +41,6 @@ public class Tower {
     }
     public boolean isInRange(Enemy enemy) {
         if (!enemy.isAlive()) return false;
-        return position.distance(enemy.getPosition()) <= range;
+        return position.distance(enemy.getPositionCopy()) <= range;
     }
 }

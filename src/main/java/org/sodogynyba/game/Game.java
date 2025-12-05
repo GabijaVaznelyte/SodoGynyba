@@ -2,6 +2,9 @@ package org.sodogynyba.game;
 
 import lombok.Getter;
 import org.sodogynyba.entities.*;
+import org.sodogynyba.entities.enemies.Enemy;
+import org.sodogynyba.entities.projectiles.Projectile;
+import org.sodogynyba.entities.towers.Tower;
 import org.sodogynyba.path.Path;
 import org.sodogynyba.waves.Wave;
 
@@ -81,14 +84,14 @@ public class Game {
         if (currentWave >= waves.size()) return;
         if(!waveActive) {return;}
         Wave wave = waves.get(currentWave);
-        wave.updateSpawn(activeEnemies);
+        Enemy newEnemy = wave.updateSpawn();
+        if (newEnemy != null) {
+            newEnemy.setListener(e -> garden.takeDamage(e.getDamage()));
+            activeEnemies.add(newEnemy);
+        }
         for(Enemy enemy : activeEnemies) {
             if(enemy.isAlive()) {
                 enemy.move();
-            }
-            if(enemy.hasReachedEnd()){
-                garden.takeDamage(enemy.getDamage());
-                enemy.setAlive(false);
             }
         }
         for (Tower tower : player.getTowers()) {

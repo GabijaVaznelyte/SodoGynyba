@@ -1,6 +1,7 @@
-package org.sodogynyba.entities;
+package org.sodogynyba.entities.projectiles;
 
 import lombok.Getter;
+import org.sodogynyba.entities.enemies.Enemy;
 
 import java.awt.*;
 
@@ -34,8 +35,8 @@ public class Projectile {
             active = false;
             return;
         }
-        double dx = target.getPosition().x - position.x;
-        double dy = target.getPosition().y - position.y;
+        double dx = target.getX() - position.x;
+        double dy = target.getY() - position.y;
         double distance = Math.sqrt(dx * dx + dy * dy);
 
         if(distance < speed){
