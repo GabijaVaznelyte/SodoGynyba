@@ -1,16 +1,12 @@
 package org.sodogynyba.waves;
 
-import lombok.Getter;
-import org.sodogynyba.entities.enemies.Enemy;
-import org.sodogynyba.entities.enemies.FastEnemy;
-import org.sodogynyba.entities.enemies.BasicEnemy;
-import org.sodogynyba.entities.enemies.TankEnemy;
+import lombok.Setter;
+import org.sodogynyba.entities.enemies.*;
 import org.sodogynyba.path.Path;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-@Getter
 
 public class Wave {
     private int waveNumber;
@@ -20,6 +16,14 @@ public class Wave {
     private int totalEnemies;
     private int spawnedCount;
     private Random random;
+    private List<Enemy> spawnedEnemies = new ArrayList<>();
+
+    public interface WaveListener {
+        void onEnemySpawned(Enemy enemy);
+    }
+
+    @Setter
+    private WaveListener listener;
 
     public Wave(int waveNumber, List<Path> paths) {
         this.waveNumber = waveNumber;
@@ -31,16 +35,21 @@ public class Wave {
         this.random = new Random();
     }
 
-    public Enemy updateSpawn() {
-        if(spawnedCount >= totalEnemies) return null;
+    public void updateSpawn() {
+        if(spawnedCount >= totalEnemies) return;
         if (spawnCooldown > 0) {
             spawnCooldown--;
-            return null;
+            return;
         }
+
         Enemy enemy = createEnemyForWave();
+        spawnedEnemies.add(enemy);
         spawnedCount++;
         spawnCooldown = spawnInterval;
-        return enemy;
+
+        if (listener != null) {
+            listener.onEnemySpawned(enemy);
+        }
     }
     private Enemy createEnemyForWave(){
         Path chosenPath = paths.get(random.nextInt(paths.size()));
@@ -60,10 +69,11 @@ public class Wave {
         return spawnedCount >= totalEnemies;
     }
     public boolean isWaveCleared(List<Enemy> activeEnemies) {
-        return allSpawned() && activeEnemies.isEmpty();
+        return allSpawned() && spawnedEnemies.stream().noneMatch(Enemy::isAlive);
     }
     public void reset() {
         this.spawnCooldown = 0;
         this.spawnedCount = 0;
+        this.spawnedEnemies.clear();
     }
 }

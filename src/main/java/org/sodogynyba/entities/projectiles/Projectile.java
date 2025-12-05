@@ -2,6 +2,8 @@ package org.sodogynyba.entities.projectiles;
 
 import lombok.Getter;
 import org.sodogynyba.entities.enemies.Enemy;
+import org.sodogynyba.entities.enemies.FastEnemy;
+import org.sodogynyba.entities.enemies.TankEnemy;
 
 import java.awt.*;
 
@@ -58,4 +60,8 @@ public abstract class Projectile {
     }
     public int getX() { return position.x; }
     public int getY() { return position.y; }
+    public Color getColor() {
+        if (this instanceof SlowProjectile) return new Color(255, 165, 0);
+        else return Color.ORANGE;
+    }
 }

@@ -184,7 +184,7 @@ public class GameLauncher {
                 //draw path
                 g.setColor(Color.LIGHT_GRAY);
                 for(Path path : game.getPaths()) {
-                    for (Point p : path.getWaypoints()) {
+                    for (Point p : path.getWaypointsCopy()) {
                         g.fillRect(p.x, p.y, BLOCK_SIZE, BLOCK_SIZE);
                     }
                 }
@@ -203,35 +203,22 @@ public class GameLauncher {
                 //draw towers
                 for(Tower tower : game.getTowers()){
                     Point p = tower.getPositionCopy();
-                    if(tower instanceof SlowTower){
-                        g.setColor(new Color(102, 178, 255));
-                    }
-                    else{
-                        g.setColor(Color.BLUE);
-                    }
+                    g.setColor(tower.getColor());
                     g.fillRect(p.x, p.y, BLOCK_SIZE, BLOCK_SIZE);
                 }
 
                 //draw enemies
                 for(Enemy enemy : game.getActiveEnemies()){
                     if(!enemy.isAlive()) continue;
-                    if(enemy instanceof FastEnemy){
-                        g.setColor(new Color(255, 102, 102));
-                    }
-                    else if(enemy instanceof TankEnemy){
-                        g.setColor(new Color(128, 0, 0));
-                    }
-                    else{
-                        g.setColor(Color.RED);
-                    }
+                    g.setColor(enemy.getColor());
                     Point p = enemy.getPositionCopy();
                     g.fillRect(p.x, p.y, BLOCK_SIZE, BLOCK_SIZE);
                 }
 
                 //draw projectiles
-                g.setColor(Color.ORANGE);
                 for(Projectile projectile : game.getProjectiles()){
                     if(projectile.isActive()){
+                        g.setColor(projectile.getColor());
                         Point p = projectile.getPositionCopy();
                         g.fillOval(p.x, p.y, 6, 6);
                     }

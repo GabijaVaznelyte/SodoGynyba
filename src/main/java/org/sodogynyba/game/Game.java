@@ -10,19 +10,19 @@ import org.sodogynyba.waves.Wave;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
-@Getter
 
 public class Game {
     private Player player;
     private List<Path> paths;
-    //private Path path;
     private List<Wave> waves;
     private int currentWave;
     private List<Enemy> activeEnemies;
     private List<Projectile> projectiles;
+    @Getter
     private Garden garden;
+    @Getter
     private boolean waveActive;
 
     public Game(int pathType, int numWaves) {
@@ -47,7 +47,7 @@ public class Game {
     }
     public boolean placeTower(Tower tower) {
         for(Path p : paths) {
-            for (Point pathPoint : p.getWaypoints()) {
+            for (Point pathPoint : p.getWaypointsCopy()) {
                 if (pathPoint.equals(tower.getPositionCopy())) {
                     System.out.println("Cannot place tower on the path!");
                     return false;
@@ -74,21 +74,26 @@ public class Game {
             System.out.println("All waves completed");
             return;
         }
+
         waveActive = true;
         activeEnemies.clear();
         projectiles.clear();
-        waves.get(currentWave).reset();
+
+        Wave current = waves.get(currentWave);
+        current.reset();
+        current.setListener(enemy -> {
+            enemy.setListener(e -> garden.takeDamage(e.getDamage()));
+            activeEnemies.add(enemy);
+        });
+
         System.out.println("Wave " + (currentWave + 1) + " started!");
     }
     public void update() {
         if (currentWave >= waves.size()) return;
         if(!waveActive) {return;}
-        Wave wave = waves.get(currentWave);
-        Enemy newEnemy = wave.updateSpawn();
-        if (newEnemy != null) {
-            newEnemy.setListener(e -> garden.takeDamage(e.getDamage()));
-            activeEnemies.add(newEnemy);
-        }
+
+        waves.get(currentWave).updateSpawn();
+
         for(Enemy enemy : activeEnemies) {
             if(enemy.isAlive()) {
                 enemy.move();
@@ -110,7 +115,7 @@ public class Game {
             }
         }
         activeEnemies.removeIf(enemy -> !enemy.isAlive());
-        if (wave.isWaveCleared(activeEnemies)) {
+        if (waves.get(currentWave).isWaveCleared(activeEnemies)) {
             System.out.println("Wave " + (currentWave + 1) + " cleared!");
             currentWave++;
             waveActive = false;
@@ -152,7 +157,16 @@ public class Game {
         return paths;
     }
     public List<Tower> getTowers() {
-        return player.getTowers();
+        return Collections.unmodifiableList(player.getTowers());
+    }
+    public List<Path> getPaths() {
+        return Collections.unmodifiableList(paths);
+    }
+    public List<Enemy> getActiveEnemies() {
+        return Collections.unmodifiableList(activeEnemies);
+    }
+    public List<Projectile> getProjectiles() {
+        return Collections.unmodifiableList(projectiles);
     }
     public int getBudget() {
         return player.getBudget();

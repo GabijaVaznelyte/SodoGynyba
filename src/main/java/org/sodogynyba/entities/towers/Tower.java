@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.sodogynyba.entities.projectiles.BasicProjectile;
 import org.sodogynyba.entities.projectiles.Projectile;
 import org.sodogynyba.entities.enemies.Enemy;
+import org.sodogynyba.entities.projectiles.SlowProjectile;
 
 import java.awt.*;
 import java.util.List;
@@ -54,4 +55,8 @@ public class Tower {
     }
     public int getX() { return position.x; }
     public int getY() { return position.y; }
+    public Color getColor() {
+        if (this instanceof SlowTower) return new Color(102, 178, 255);
+        else return Color.BLUE;
+    }
 }

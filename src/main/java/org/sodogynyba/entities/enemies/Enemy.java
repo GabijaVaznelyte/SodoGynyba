@@ -91,4 +91,9 @@ public class Enemy {
     }
     public int getX() { return position.x; }
     public int getY() { return position.y; }
+    public Color getColor() {
+        if (this instanceof FastEnemy) return new Color(255, 102, 102);
+        else if (this instanceof TankEnemy) return new Color(128, 0, 0);
+        else return Color.RED;
+    }
 }
