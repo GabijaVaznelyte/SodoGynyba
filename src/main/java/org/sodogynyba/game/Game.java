@@ -48,21 +48,21 @@ public class Game {
     public boolean placeTower(Tower tower) {
         for(Path p : paths) {
             for (Point pathPoint : p.getWaypoints()) {
-                if (pathPoint.equals(tower.getPosition())) {
+                if (pathPoint.equals(tower.getPositionCopy())) {
                     System.out.println("Cannot place tower on the path!");
                     return false;
                 }
             }
         }
         for(Tower t : player.getTowers()) {
-            if(t.getPosition().equals(tower.getPosition())) {
+            if(t.getPositionCopy().equals(tower.getPositionCopy())) {
                 System.out.println("There's already a tower there!");
                 return false;
             }
         }
         if(player.canAfford(tower)) {
             player.placeTower(tower);
-            System.out.println("Tower placed at " + tower.getPosition() + ". Budget left: " + player.getBudget());
+            System.out.println("Tower placed at " + tower.getPositionCopy() + ". Budget left: " + player.getBudget());
             return true;
         } else {
             System.out.println("Not enough budget to place tower!");

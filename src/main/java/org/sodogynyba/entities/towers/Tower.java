@@ -1,7 +1,6 @@
 package org.sodogynyba.entities.towers;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.sodogynyba.entities.projectiles.BasicProjectile;
 import org.sodogynyba.entities.projectiles.Projectile;
 import org.sodogynyba.entities.enemies.Enemy;
@@ -9,14 +8,14 @@ import org.sodogynyba.entities.enemies.Enemy;
 import java.awt.*;
 import java.util.List;
 
-@Getter
-@Setter
-
 public class Tower {
+    @Getter
     private int cost;
+    @Getter
     private int damage;
     private int range;
     private Point position;
+    @Getter
     private long lastAttackTime;
     private long attackCooldown;
 
@@ -44,4 +43,15 @@ public class Tower {
         if (!enemy.isAlive()) return false;
         return position.distance(enemy.getPositionCopy()) <= range;
     }
+    protected void setLastAttackTime(long time){
+        this.lastAttackTime = time;
+    }
+    protected long getAttackCooldown(){
+        return attackCooldown;
+    }
+    public Point getPositionCopy() {
+        return new Point(position);
+    }
+    public int getX() { return position.x; }
+    public int getY() { return position.y; }
 }

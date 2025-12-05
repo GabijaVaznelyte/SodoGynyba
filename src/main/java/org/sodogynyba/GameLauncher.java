@@ -202,7 +202,7 @@ public class GameLauncher {
 
                 //draw towers
                 for(Tower tower : game.getTowers()){
-                    Point p = tower.getPosition();
+                    Point p = tower.getPositionCopy();
                     if(tower instanceof SlowTower){
                         g.setColor(new Color(102, 178, 255));
                     }

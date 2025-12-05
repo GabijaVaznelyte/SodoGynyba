@@ -8,8 +8,8 @@ import java.awt.*;
 import java.util.List;
 
 public class SlowTower extends Tower {
-    private final double slowAmount;
-    private final long slowDuration;
+    private double slowAmount;
+    private long slowDuration;
 
     public SlowTower(Point position) {
         super(30, 3, 50, 1200, position);
@@ -26,7 +26,7 @@ public class SlowTower extends Tower {
         for(Enemy enemy : enemies){
             if(enemy.isAlive() && isInRange(enemy)){
                 setLastAttackTime(currentTime);
-                return new SlowProjectile(new Point(getPosition()), enemy, 16, getDamage(), slowAmount, slowDuration);
+                return new SlowProjectile(new Point(getPositionCopy()), enemy, 16, getDamage(), slowAmount, slowDuration);
             }
         }
         return null;
