@@ -1,17 +1,18 @@
 package org.sodogynyba.entities.projectiles;
 
 import org.sodogynyba.entities.enemies.Enemy;
+import org.sodogynyba.utils.colors.ProjectileColors;
 
 import java.awt.*;
 
-public class BasicProjectile extends Projectile {
+public final class BasicProjectile extends Projectile {
 
     public BasicProjectile(Point startPosition, Enemy target, int speed, int damage) {
-        super(startPosition, target, speed, damage);
+        super(startPosition, target, speed, damage, ProjectileColors.BASIC);
     }
 
     @Override
     protected void onHitEffect() {
-        // No status effects for basic projectile
+        // Basic projectile has no additional effects
     }
 }
