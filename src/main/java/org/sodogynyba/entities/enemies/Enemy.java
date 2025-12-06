@@ -2,7 +2,7 @@ package org.sodogynyba.entities.enemies;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.sodogynyba.gameLogic.Path;
+import org.sodogynyba.paths.Path;
 
 import java.awt.*;
 

@@ -1,4 +1,4 @@
-package org.sodogynyba.gameLogic;
+package org.sodogynyba.paths;
 
 import java.awt.*;
 import java.util.List;

@@ -1,7 +1,8 @@
-package org.sodogynyba.gameLogic;
+package org.sodogynyba.waves;
 
 import lombok.Setter;
 import org.sodogynyba.entities.enemies.*;
+import org.sodogynyba.paths.Path;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -5,7 +5,7 @@ import org.sodogynyba.entities.projectiles.Projectile;
 import org.sodogynyba.entities.towers.Tower;
 import org.sodogynyba.entities.towers.TowerFactory;
 import org.sodogynyba.gameLogic.Game;
-import org.sodogynyba.gameLogic.Path;
+import org.sodogynyba.paths.Path;
 
 import javax.swing.*;
 import java.awt.*;

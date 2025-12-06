@@ -1,6 +1,6 @@
 package org.sodogynyba.entities.enemies;
 
-import org.sodogynyba.gameLogic.Path;
+import org.sodogynyba.paths.Path;
 import org.sodogynyba.utils.colors.EnemyColors;
 
 public final class EnemyFactory {
