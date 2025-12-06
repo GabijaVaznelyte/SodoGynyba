@@ -10,21 +10,26 @@ import java.util.List;
 public class Player {
     @Getter
     private int budget;
-    private List<Tower> towers;
+    private final List<Tower> towers = new ArrayList<>();
 
     public Player(int initialBudget) {
         this.budget = initialBudget;
-        this.towers = new ArrayList<>();
     }
 
-    public boolean canAfford(Tower tower) {
-        return budget >= tower.getCost();
+    private boolean spend(int amount) {
+        if (amount > budget) return false;
+        budget -= amount;
+        return true;
     }
-    public void placeTower(Tower tower) {
-        if (canAfford(tower)) {
-            towers.add(tower);
-            budget -= tower.getCost();
+    public boolean placeTower(Tower tower) {
+        int cost = tower.getCost();
+
+        if (!spend(cost)) {
+            return false;
         }
+
+        towers.add(tower);
+        return true;
     }
     public void addBudget(int amount) {
         this.budget += amount;

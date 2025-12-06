@@ -2,12 +2,10 @@ package org.sodogynyba;
 
 import org.sodogynyba.entities.enemies.Enemy;
 import org.sodogynyba.entities.projectiles.Projectile;
-import org.sodogynyba.entities.towers.BasicTower;
-import org.sodogynyba.entities.towers.SlowTower;
 import org.sodogynyba.entities.towers.Tower;
 import org.sodogynyba.entities.towers.TowerFactory;
-import org.sodogynyba.game.Game;
-import org.sodogynyba.path.Path;
+import org.sodogynyba.gameLogic.Game;
+import org.sodogynyba.gameLogic.Path;
 
 import javax.swing.*;
 import java.awt.*;

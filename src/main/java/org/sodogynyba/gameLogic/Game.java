@@ -1,12 +1,10 @@
-package org.sodogynyba.game;
+package org.sodogynyba.gameLogic;
 
 import lombok.Getter;
 import org.sodogynyba.entities.*;
 import org.sodogynyba.entities.enemies.Enemy;
 import org.sodogynyba.entities.projectiles.Projectile;
 import org.sodogynyba.entities.towers.Tower;
-import org.sodogynyba.path.Path;
-import org.sodogynyba.waves.Wave;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -60,8 +58,7 @@ public class Game {
                 return false;
             }
         }
-        if(player.canAfford(tower)) {
-            player.placeTower(tower);
+        if(player.placeTower(tower)) {
             System.out.println("Tower placed at " + tower.getPositionCopy() + ". Budget left: " + player.getBudget());
             return true;
         } else {
@@ -115,7 +112,7 @@ public class Game {
             }
         }
         activeEnemies.removeIf(enemy -> !enemy.isAlive());
-        if (waves.get(currentWave).isWaveCleared(activeEnemies)) {
+        if (waves.get(currentWave).isWaveCleared()) {
             System.out.println("Wave " + (currentWave + 1) + " cleared!");
             currentWave++;
             waveActive = false;
