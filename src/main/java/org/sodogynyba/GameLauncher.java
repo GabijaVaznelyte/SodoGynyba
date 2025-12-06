@@ -1,8 +1,6 @@
 package org.sodogynyba;
 
 import org.sodogynyba.entities.enemies.Enemy;
-import org.sodogynyba.entities.enemies.FastEnemy;
-import org.sodogynyba.entities.enemies.TankEnemy;
 import org.sodogynyba.entities.projectiles.Projectile;
 import org.sodogynyba.entities.towers.RegularTower;
 import org.sodogynyba.entities.towers.SlowTower;

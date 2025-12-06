@@ -7,84 +7,77 @@ import org.sodogynyba.path.Path;
 import java.awt.*;
 
 public class Enemy {
+    // --- Core Stats ---
+    private final EnemyStats stats;
+    @Getter
+    private final int damage;
+    @Getter
+    private final int reward;
+    private final int baseSpeed;
+    // --- State ---
+    @Getter
+    private int speed;
     private int health;
     @Getter
-    private int damage;
-    private int baseSpeed;
-    private int speed;
-    @Getter
-    private int reward;
-    private Point position;
-    @Getter
-    private boolean alive;
-    private Path path;
-    private int pathIndex;
+    private boolean alive = true;
+    // --- Position & Path ---
+    private final Point position;
+    private final Path path;
+    private int pathIndex = 0;
+    // --- Slow Effect ---
     private double slowAmount = 0;
-    private double slowEndTime = 0;
+    private long slowEndTime = 0;
+    // --- Observer Pattern ---
     @Setter
     private EnemyListener listener;
 
-    public Enemy(int health, int damage, int speed, int reward, Path path) {
-        this.health = health;
-        this.damage = damage;
-        this.baseSpeed = speed;
-        this.speed = speed;
-        this.reward = reward;
+    public Enemy(EnemyStats stats, Path path) {
+        this.stats = stats;
         this.path = path;
-        this.pathIndex = 0;
-
-        Point start = path.getWaypoint(pathIndex);
+        this.health = stats.health();
+        this.damage = stats.damage();
+        this.baseSpeed = stats.speed();
+        this.speed = stats.speed();
+        this.reward = stats.reward();
+        Point start = path.getWaypoint(0);
         this.position = new Point(start);
-        this.alive = true;
     }
 
     public void move() {
         if (!alive) return;
 
-        if (slowAmount > 0 && System.currentTimeMillis() > slowEndTime) {
-            slowAmount = 0;
-            speed = baseSpeed;
-        }
+        updateSlowStatus();
 
-        Point target = path.getWaypoint(pathIndex);
+        Point target = getCurrentTarget();
         if (target == null) return;
 
         double dx = target.x - position.x;
         double dy = target.y - position.y;
-        double distance = Math.sqrt(dx * dx + dy * dy);
+        double distance = Math.hypot(dx, dy);
 
         if (distance <= speed) {
-            position.x = target.x;
-            position.y = target.y;
-            pathIndex++;
-            if (hasReachedEnd()) {
-                reachEnd();
-            }
+            snapToTarget(target);
+            processWaypointReached();
         } else {
-            position.x += (int) (speed * dx / distance);
-            position.y += (int) (speed * dy / distance);
+            moveToward(dx, dy, distance);
         }
     }
     public void takeDamage(int damage) {
         health -= damage;
-        if (health <= 0){
+        if (health <= 0) {
             health = 0;
             alive = false;
         }
     }
-    public void applySlow(double amount, long duration){
-        if(amount > slowAmount){
+    public void applySlow(double amount, long duration) {
+        if (amount > slowAmount) {
             slowAmount = amount;
             slowEndTime = System.currentTimeMillis() + duration;
-            speed = (int)(baseSpeed * (1 - slowAmount));
+            speed = (int) (baseSpeed * (1 - slowAmount));
         }
     }
-    public boolean hasReachedEnd(){
+    public boolean hasReachedEnd() {
         return pathIndex >= path.getLength();
-    }
-    private void reachEnd() {
-        alive = false;
-        if (listener != null) listener.onEnemyReachedEnd(this);
     }
     public Point getPositionCopy() {
         return new Point(position);
@@ -92,8 +85,32 @@ public class Enemy {
     public int getX() { return position.x; }
     public int getY() { return position.y; }
     public Color getColor() {
-        if (this instanceof FastEnemy) return new Color(255, 102, 102);
-        else if (this instanceof TankEnemy) return new Color(128, 0, 0);
-        else return Color.RED;
+        return stats.color();
+    }
+    // --- Private helpers ---
+    private void updateSlowStatus() {
+        if (slowAmount > 0 && System.currentTimeMillis() > slowEndTime) {
+            slowAmount = 0;
+            speed = baseSpeed;
+        }
+    }
+    private Point getCurrentTarget() {
+        return path.getWaypoint(pathIndex);
+    }
+    private void snapToTarget(Point target) {
+        position.x = target.x;
+        position.y = target.y;
+    }
+    private void processWaypointReached() {
+        pathIndex++;
+        if (hasReachedEnd()) reachEnd();
+    }
+    private void moveToward(double dx, double dy, double distance) {
+        position.x += (int) (speed * dx / distance);
+        position.y += (int) (speed * dy / distance);
+    }
+    private void reachEnd() {
+        alive = false;
+        if (listener != null) listener.onEnemyReachedEnd(this);
     }
 }

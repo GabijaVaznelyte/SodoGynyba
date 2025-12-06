@@ -36,7 +36,7 @@ public class Wave {
     }
 
     public void updateSpawn() {
-        if(spawnedCount >= totalEnemies) return;
+        if (spawnedCount >= totalEnemies) return;
         if (spawnCooldown > 0) {
             spawnCooldown--;
             return;
@@ -51,19 +51,22 @@ public class Wave {
             listener.onEnemySpawned(enemy);
         }
     }
-    private Enemy createEnemyForWave(){
+    private Enemy createEnemyForWave() {
         Path chosenPath = paths.get(random.nextInt(paths.size()));
         int typeChance = random.nextInt(100);
-        if(waveNumber < 2){
-            return new BasicEnemy(chosenPath);
-        }else if(waveNumber < 4){
-            if(typeChance < 70) return new BasicEnemy(chosenPath);
-            else return new FastEnemy(chosenPath);
-        }else {
-            if(typeChance < 50) return new BasicEnemy(chosenPath);
-            else if(typeChance < 80) return new FastEnemy(chosenPath);
-            else return new TankEnemy(chosenPath);
+
+        EnemyStats stats;
+        if (waveNumber < 2) {
+            stats = EnemyFactory.BASIC;
+        } else if (waveNumber < 4) {
+            stats = typeChance < 70 ? EnemyFactory.BASIC : EnemyFactory.FAST;
+        } else {
+            if (typeChance < 50) stats = EnemyFactory.BASIC;
+            else if (typeChance < 80) stats = EnemyFactory.FAST;
+            else stats = EnemyFactory.TANK;
         }
+
+        return EnemyFactory.createEnemy(stats, chosenPath);
     }
     public boolean allSpawned() {
         return spawnedCount >= totalEnemies;
