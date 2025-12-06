@@ -2,9 +2,10 @@ package org.sodogynyba;
 
 import org.sodogynyba.entities.enemies.Enemy;
 import org.sodogynyba.entities.projectiles.Projectile;
-import org.sodogynyba.entities.towers.RegularTower;
+import org.sodogynyba.entities.towers.BasicTower;
 import org.sodogynyba.entities.towers.SlowTower;
 import org.sodogynyba.entities.towers.Tower;
+import org.sodogynyba.entities.towers.TowerFactory;
 import org.sodogynyba.game.Game;
 import org.sodogynyba.path.Path;
 
@@ -235,10 +236,10 @@ public class GameLauncher {
                 Point clickPoint = new Point(col * BLOCK_SIZE, row * BLOCK_SIZE);
                 Tower tower;
                 if(selectedTowerType.equals("Regular Tower")){
-                    tower = new RegularTower(clickPoint);
+                    tower = TowerFactory.createTower(TowerFactory.REGULAR, clickPoint);
                 }
                 else{
-                    tower = new SlowTower(clickPoint);
+                    tower = TowerFactory.createTower(TowerFactory.SLOW, clickPoint);
                 }
                 if(game.placeTower(tower)){
                     selectedTowerType = null;

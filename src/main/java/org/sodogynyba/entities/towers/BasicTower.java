@@ -1,17 +1,14 @@
 package org.sodogynyba.entities.towers;
 
-import org.sodogynyba.entities.projectiles.Projectile;
 import org.sodogynyba.entities.enemies.Enemy;
-import org.sodogynyba.entities.projectiles.SlowProjectile;
+import org.sodogynyba.entities.projectiles.BasicProjectile;
+import org.sodogynyba.entities.projectiles.Projectile;
 
 import java.awt.*;
 import java.util.List;
 
-public class SlowTower extends Tower {
-    private static final double SLOW_AMOUNT = 0.5;
-    private static final long SLOW_DURATION = 2000;
-
-    public SlowTower(TowerStats stats, Point position) {
+public class BasicTower extends Tower {
+    public BasicTower(TowerStats stats, Point position) {
         super(stats, position);
     }
 
@@ -23,7 +20,7 @@ public class SlowTower extends Tower {
         for (Enemy enemy : enemies) {
             if (isInRange(enemy)) {
                 lastAttackTime = currentTime;
-                return new SlowProjectile(new Point(position), enemy, Projectile.DEFAULT_SPEED, stats.damage(), SLOW_AMOUNT, SLOW_DURATION);
+                return new BasicProjectile(new Point(position), enemy, Projectile.DEFAULT_SPEED, stats.damage());
             }
         }
         return null;
