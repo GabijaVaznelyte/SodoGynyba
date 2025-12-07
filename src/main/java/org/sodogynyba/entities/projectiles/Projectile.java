@@ -6,7 +6,7 @@ import org.sodogynyba.entities.enemies.Enemy;
 import java.awt.*;
 
 public abstract class Projectile {
-    public static final int DEFAULT_SPEED = 16;
+    public static final int DEFAULT_SPEED = 8;
     private final Point position;
     private final Enemy target;
     private final int speed;
@@ -61,5 +61,5 @@ public abstract class Projectile {
     }
     // --- Protected Helpers ---
     protected abstract void onHitEffect();
-    protected Enemy getTarget() { return target; }
+    public Enemy getTarget() { return target; }
 }

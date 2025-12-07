@@ -17,19 +17,20 @@ public class Enemy {
     // --- State ---
     @Getter
     private int speed;
-    private int health;
     @Getter
-    private boolean alive = true;
+    protected int health;
+    @Getter
+    protected boolean alive = true;
     // --- Position & Path ---
-    private final Point position;
-    private final Path path;
-    private int pathIndex = 0;
+    protected Point position;
+    protected final Path path;
+    protected int pathIndex = 0;
     // --- Slow Effect ---
     private double slowAmount = 0;
     private long slowEndTime = 0;
     // --- Observer Pattern ---
     @Setter
-    private EnemyListener listener;
+    protected EnemyListener listener;
 
     public Enemy(EnemyStats stats, Path path) {
         this.stats = stats;
@@ -109,7 +110,7 @@ public class Enemy {
         position.x += (int) (speed * dx / distance);
         position.y += (int) (speed * dy / distance);
     }
-    private void reachEnd() {
+    public void reachEnd() {
         alive = false;
         if (listener != null) listener.onEnemyReachedEnd(this);
     }

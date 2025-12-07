@@ -42,12 +42,10 @@ public class GamePanel extends JPanel {
         drawEnemies(g, xOffset, yOffset);
         drawProjectiles(g, xOffset, yOffset);
     }
-
     private void drawBackground(Graphics g, int xOffset, int yOffset) {
         g.setColor(GameColors.BACKGROUND);
         g.fillRect(xOffset, yOffset, GameConfig.BOARD_WIDTH, GameConfig.BOARD_HEIGHT);
     }
-
     private void drawPaths(Graphics g, int xOffset, int yOffset) {
         g.setColor(GameColors.PATH);
         for (var path : game.getPaths()) {
@@ -56,7 +54,6 @@ public class GamePanel extends JPanel {
             }
         }
     }
-
     private void drawGarden(Graphics g, int xOffset, int yOffset) {
         g.setColor(GameColors.GARDEN);
         g.fillRect(xOffset, yOffset + (GameConfig.GRID_ROWS - 1) * GameConfig.BLOCK_SIZE,
@@ -64,7 +61,6 @@ public class GamePanel extends JPanel {
         g.setColor(Color.WHITE);
         g.drawString("GARDEN", xOffset + 5, yOffset + (GameConfig.GRID_ROWS * GameConfig.BLOCK_SIZE) - 4);
     }
-
     private void drawGrid(Graphics g, int xOffset, int yOffset) {
         g.setColor(GameColors.GRID_LINES);
         for (int i = 0; i <= GameConfig.GRID_COLS; i++)
@@ -74,7 +70,6 @@ public class GamePanel extends JPanel {
             g.drawLine(xOffset, yOffset + i * GameConfig.BLOCK_SIZE,
                     xOffset + GameConfig.BOARD_WIDTH, yOffset + i * GameConfig.BLOCK_SIZE);
     }
-
     private void drawTowers(Graphics g, int xOffset, int yOffset) {
         for (Tower tower : game.getTowers()) {
             Point p = tower.getPositionCopy();
@@ -82,7 +77,6 @@ public class GamePanel extends JPanel {
             g.fillRect(xOffset + p.x, yOffset + p.y, GameConfig.BLOCK_SIZE, GameConfig.BLOCK_SIZE);
         }
     }
-
     private void drawEnemies(Graphics g, int xOffset, int yOffset) {
         for (Enemy enemy : game.getActiveEnemies()) {
             if (!enemy.isAlive()) continue;
@@ -91,7 +85,6 @@ public class GamePanel extends JPanel {
             g.fillRect(xOffset + p.x, yOffset + p.y, GameConfig.BLOCK_SIZE, GameConfig.BLOCK_SIZE);
         }
     }
-
     private void drawProjectiles(Graphics g, int xOffset, int yOffset) {
         for (Projectile projectile : game.getProjectiles()) {
             if (projectile.isActive()) {
