@@ -1,4 +1,4 @@
-package org.sodogynyba.gameLogic;
+package org.sodogynyba.game;
 
 import lombok.Getter;
 import org.sodogynyba.entities.*;
@@ -16,17 +16,14 @@ import java.util.Collections;
 import java.util.List;
 
 public class Game {
-    private static final int BLOCK_SIZE = 16;
-    private static final int PATH_HEIGHT = 20;
-    private static final int START_X_PATH1 = 5;
-    private static final int START_X_PATH2_1 = 4;
-    private static final int START_X_PATH2_2 = 12;
     private static final int INITIAL_BUDGET = 100;
     private static final int GARDEN_HEALTH = 2;
 
     private final Player player;
     private final List<Path> paths;
     private final List<Wave> waves;
+    @Getter
+    private final int totalWaves;
     private int currentWave;
     private final List<Enemy> activeEnemies;
     private final List<Projectile> projectiles;
@@ -39,6 +36,7 @@ public class Game {
         player = new Player(INITIAL_BUDGET);
         activeEnemies = new ArrayList<>();
         projectiles = new ArrayList<>();
+        totalWaves = numWaves;
         currentWave = 0;
         garden = new Garden(GARDEN_HEALTH);
 
@@ -52,7 +50,7 @@ public class Game {
         projectiles.clear();
         waveActive = false;
     }
-    // --- Update and it's helpers ---
+    // --- Update ---
     public void update() {
         if (currentWave >= waves.size() || !waveActive) return;
 
@@ -171,6 +169,9 @@ public class Game {
     }
     public int getCurrentWave() {
         return currentWave + 1;
+    }
+    public void clearProjectiles() {
+        projectiles.clear();
     }
     public boolean isGameOver() {
         return garden.isDestroyed();

@@ -1,11 +1,12 @@
 package org.sodogynyba.paths;
 
+import org.sodogynyba.utils.GameConfig;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class PathFactory {
-    private static final int BLOCK_SIZE = 16;
     private static final int PATH_HEIGHT = 20;
     private static final int START_X_PATH1 = 5;
     private static final int START_X_PATH2_1 = 4;
@@ -19,10 +20,10 @@ public final class PathFactory {
 
     private static List<Path> createSinglePath() {
         List<Point> waypoints = new ArrayList<>();
-        int x = START_X_PATH1 * BLOCK_SIZE;
+        int x = START_X_PATH1 * GameConfig.BLOCK_SIZE;
         for (int y = 0; y < PATH_HEIGHT; y++) {
-            x += (y % 4 < 2 ? BLOCK_SIZE : -BLOCK_SIZE);
-            waypoints.add(new Point(x, y * BLOCK_SIZE));
+            x += (y % 4 < 2 ? GameConfig.BLOCK_SIZE : -GameConfig.BLOCK_SIZE);
+            waypoints.add(new Point(x, y * GameConfig.BLOCK_SIZE));
         }
         return List.of(new Path(waypoints));
     }
@@ -30,14 +31,14 @@ public final class PathFactory {
     private static List<Path> createDoublePath() {
         List<Point> waypoints1 = new ArrayList<>();
         List<Point> waypoints2 = new ArrayList<>();
-        int x1 = START_X_PATH2_1 * BLOCK_SIZE;
-        int x2 = START_X_PATH2_2 * BLOCK_SIZE;
+        int x1 = START_X_PATH2_1 * GameConfig.BLOCK_SIZE;
+        int x2 = START_X_PATH2_2 * GameConfig.BLOCK_SIZE;
 
         for (int y = 0; y < PATH_HEIGHT; y++) {
-            x1 += (y % 4 < 2 ? BLOCK_SIZE : -BLOCK_SIZE);
-            x2 += (y % 4 < 2 ? -BLOCK_SIZE : BLOCK_SIZE);
-            waypoints1.add(new Point(x1, y * BLOCK_SIZE));
-            waypoints2.add(new Point(x2, y * BLOCK_SIZE));
+            x1 += (y % 4 < 2 ? GameConfig.BLOCK_SIZE : -GameConfig.BLOCK_SIZE);
+            x2 += (y % 4 < 2 ? -GameConfig.BLOCK_SIZE : GameConfig.BLOCK_SIZE);
+            waypoints1.add(new Point(x1, y * GameConfig.BLOCK_SIZE));
+            waypoints2.add(new Point(x2, y * GameConfig.BLOCK_SIZE));
         }
         return List.of(new Path(waypoints1), new Path(waypoints2));
     }

@@ -78,7 +78,4 @@ public class Wave {
         spawnedCount = 0;
         spawnedEnemies.clear();
     }
-    public List<Enemy> getSpawnedEnemies() {
-        return Collections.unmodifiableList(spawnedEnemies);
-    }
 }
