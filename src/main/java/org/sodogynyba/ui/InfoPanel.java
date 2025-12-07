@@ -7,6 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class InfoPanel extends JPanel {
+    private static final int PANEL_HEIGHT = 100;
+    private static final int FLOW_HGAP = 20;
+    private static final int FLOW_VGAP = 20;
+
     private final Game game;
     private final JLabel gardenHealthLabel;
     private final JLabel budgetLabel;
@@ -17,7 +21,7 @@ public class InfoPanel extends JPanel {
 
     public InfoPanel(Game game) {
         this.game = game;
-        setPreferredSize(new Dimension(GameConfig.BOARD_WIDTH, 100));
+        setPreferredSize(new Dimension(GameConfig.BOARD_WIDTH, PANEL_HEIGHT));
         setBackground(Color.LIGHT_GRAY);
 
         gardenHealthLabel = new JLabel();
@@ -27,7 +31,7 @@ public class InfoPanel extends JPanel {
         startWavesButton = new JButton("Start Wave");
         addTowerButton = new JButton("Add Tower");
 
-        setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
+        setLayout(new FlowLayout(FlowLayout.CENTER, FLOW_HGAP, FLOW_VGAP));
         add(gardenHealthLabel);
         add(budgetLabel);
         add(wavesLabel);

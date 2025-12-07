@@ -16,11 +16,11 @@ public class GameLauncher {
             JFrame frame = new JFrame("Sodo Gynyba");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setResizable(false);
-            frame.setLocationRelativeTo(null);
 
             showMenu(frame);
 
             frame.pack();
+            frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         });
     }

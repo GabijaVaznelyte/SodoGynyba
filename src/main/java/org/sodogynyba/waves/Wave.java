@@ -5,7 +5,6 @@ import org.sodogynyba.entities.enemies.*;
 import org.sodogynyba.paths.Path;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -27,7 +26,6 @@ public class Wave {
     private int spawnedCount;
 
     public interface WaveListener { void onEnemySpawned(Enemy enemy); }
-
     @Setter
     private WaveListener listener;
 
@@ -52,9 +50,7 @@ public class Wave {
         if (listener != null) listener.onEnemySpawned(enemy);
     }
     private Enemy createEnemyForWave() {
-        Path path = chooseRandomPath();
-        EnemyStats stats = chooseEnemyStats();
-        return EnemyFactory.createEnemy(stats, path);
+        return EnemyFactory.createEnemy(chooseEnemyStats(), chooseRandomPath());
     }
     private Path chooseRandomPath() {
         return paths.get(random.nextInt(paths.size()));
@@ -62,10 +58,13 @@ public class Wave {
     private EnemyStats chooseEnemyStats() {
         int chance = random.nextInt(100);
         if (waveNumber < 2) return EnemyFactory.BASIC;
-        if (waveNumber < 4) return chance < BASIC_ENEMY_CHANCE_WAVE_2 ? EnemyFactory.BASIC : EnemyFactory.FAST;
+        if (waveNumber < 4) return pickByChance(chance, BASIC_ENEMY_CHANCE_WAVE_2, EnemyFactory.BASIC, EnemyFactory.FAST);
         if (chance < BASIC_ENEMY_CHANCE_WAVE_4) return EnemyFactory.BASIC;
         if (chance < FAST_ENEMY_CHANCE_WAVE_4) return EnemyFactory.FAST;
         return EnemyFactory.TANK;
+    }
+    private EnemyStats pickByChance(int chance, int threshold, EnemyStats success, EnemyStats fail) {
+        return chance < threshold ? success : fail;
     }
     public boolean allSpawned() {
         return spawnedCount >= totalEnemies;

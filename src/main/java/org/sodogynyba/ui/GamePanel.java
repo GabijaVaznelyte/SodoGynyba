@@ -103,19 +103,13 @@ public class GamePanel extends JPanel {
     }
 
     private class TowerPlacer extends MouseAdapter {
+
         @Override
         public void mouseClicked(MouseEvent e) {
             if (selectedTowerType == null) return;
 
-            int xOffset = (getWidth() - GameConfig.BOARD_WIDTH) / 2;
-            int yOffset = (getHeight() - GameConfig.BOARD_HEIGHT) / 2;
-
-            int col = (e.getX() - xOffset) / GameConfig.BLOCK_SIZE;
-            int row = (e.getY() - yOffset) / GameConfig.BLOCK_SIZE;
-
-            if (col < 0 || col >= GameConfig.GRID_COLS || row < 0 || row >= GameConfig.GRID_ROWS) return;
-
-            Point clickPoint = new Point(col * GameConfig.BLOCK_SIZE, row * GameConfig.BLOCK_SIZE);
+            Point clickPoint = calculateClickPosition(e);
+            if (clickPoint == null) return;
 
             Tower tower = selectedTowerType.equals("Regular Tower")
                     ? TowerFactory.createTower(TowerFactory.REGULAR, clickPoint)
@@ -125,6 +119,20 @@ public class GamePanel extends JPanel {
                 selectedTowerType = null;
             }
             repaint();
+        }
+
+        private Point calculateClickPosition(MouseEvent e) {
+            int xOffset = (getWidth() - GameConfig.BOARD_WIDTH) / 2;
+            int yOffset = (getHeight() - GameConfig.BOARD_HEIGHT) / 2;
+
+            int col = (e.getX() - xOffset) / GameConfig.BLOCK_SIZE;
+            int row = (e.getY() - yOffset) / GameConfig.BLOCK_SIZE;
+
+            if (col < 0 || col >= GameConfig.GRID_COLS || row < 0 || row >= GameConfig.GRID_ROWS) {
+                return null;
+            }
+
+            return new Point(col * GameConfig.BLOCK_SIZE, row * GameConfig.BLOCK_SIZE);
         }
     }
 }

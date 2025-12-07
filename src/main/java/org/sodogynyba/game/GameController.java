@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GameController {
+    private static final int GAME_UPDATE_DELAY = 200;
 
     private final Game game;
     private final GamePanel gamePanel;
@@ -24,7 +25,7 @@ public class GameController {
         infoPanel.startWavesButton.addActionListener(e -> startWave());
         infoPanel.addTowerButton.addActionListener(e -> addTower());
 
-        gameTimer = new Timer(200, e -> updateGame());
+        gameTimer = new Timer(GAME_UPDATE_DELAY, e -> updateGame());
     }
 
     public void start(JFrame gameFrame) {
@@ -53,27 +54,25 @@ public class GameController {
         infoPanel.updateLabels();
         infoPanel.startWavesButton.setEnabled(!game.isWaveActive());
 
-        if (game.isGameOver()) {
-            game.clearProjectiles();
-            gamePanel.repaint();
-            endGame("Game Over");
-        } else if (game.isVictory()) {
-            game.clearProjectiles();
-            gamePanel.repaint();
-            endGame("Victory!");
-        }
+        if (game.isGameOver()) handleEndCondition("Game Over");
+        else if (game.isVictory()) handleEndCondition("Victory");
     }
-
+    private void handleEndCondition(String message) {
+        clearAndRepaint();
+        endGame(message);
+    }
+    private void clearAndRepaint() {
+        game.clearProjectiles();
+        gamePanel.repaint();
+    }
     private void endGame(String message) {
         gameTimer.stop();
         JOptionPane.showMessageDialog(gamePanel, message);
         SwingUtilities.invokeLater(() -> GameLauncher.returnToMenu((JFrame) SwingUtilities.getWindowAncestor(gamePanel)));
     }
-
     private void startWave() {
         game.startNextWave();
     }
-
     private void addTower() {
         String[] options = {"Regular Tower", "Slow Tower"};
         String choice = (String) JOptionPane.showInputDialog(

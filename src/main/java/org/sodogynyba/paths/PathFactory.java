@@ -22,7 +22,7 @@ public final class PathFactory {
         List<Point> waypoints = new ArrayList<>();
         int x = START_X_PATH1 * GameConfig.BLOCK_SIZE;
         for (int y = 0; y < PATH_HEIGHT; y++) {
-            x += (y % 4 < 2 ? GameConfig.BLOCK_SIZE : -GameConfig.BLOCK_SIZE);
+            x += calculateOffset(y, false);
             waypoints.add(new Point(x, y * GameConfig.BLOCK_SIZE));
         }
         return List.of(new Path(waypoints));
@@ -35,11 +35,15 @@ public final class PathFactory {
         int x2 = START_X_PATH2_2 * GameConfig.BLOCK_SIZE;
 
         for (int y = 0; y < PATH_HEIGHT; y++) {
-            x1 += (y % 4 < 2 ? GameConfig.BLOCK_SIZE : -GameConfig.BLOCK_SIZE);
-            x2 += (y % 4 < 2 ? -GameConfig.BLOCK_SIZE : GameConfig.BLOCK_SIZE);
+            x1 += calculateOffset(y, false);
+            x2 += calculateOffset(y, true);
             waypoints1.add(new Point(x1, y * GameConfig.BLOCK_SIZE));
             waypoints2.add(new Point(x2, y * GameConfig.BLOCK_SIZE));
         }
         return List.of(new Path(waypoints1), new Path(waypoints2));
+    }
+    private static int calculateOffset(int y, boolean reverse) {
+        int offset = (y % 4 < 2 ? GameConfig.BLOCK_SIZE : -GameConfig.BLOCK_SIZE);
+        return reverse ? -offset : offset;
     }
 }

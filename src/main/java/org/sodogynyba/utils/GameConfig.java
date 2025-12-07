@@ -9,5 +9,5 @@ public final class GameConfig {
     public static final int INITIAL_BUDGET = 100;
     public static final int GARDEN_HEALTH = 2;
 
-    private GameConfig() {} // prevent instantiation
+    private GameConfig() {}
 }

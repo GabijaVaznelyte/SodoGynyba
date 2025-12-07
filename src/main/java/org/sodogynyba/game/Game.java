@@ -7,6 +7,7 @@ import org.sodogynyba.entities.projectiles.Projectile;
 import org.sodogynyba.entities.towers.Tower;
 import org.sodogynyba.paths.Path;
 import org.sodogynyba.paths.PathFactory;
+import org.sodogynyba.utils.GameConfig;
 import org.sodogynyba.waves.Wave;
 import org.sodogynyba.waves.WaveFactory;
 
@@ -16,8 +17,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class Game {
-    private static final int INITIAL_BUDGET = 100;
-    private static final int GARDEN_HEALTH = 2;
 
     private final Player player;
     private final List<Path> paths;
@@ -33,23 +32,17 @@ public class Game {
     private boolean waveActive;
 
     public Game(int pathType, int numWaves) {
-        player = new Player(INITIAL_BUDGET);
+        player = new Player(GameConfig.INITIAL_BUDGET);
         activeEnemies = new ArrayList<>();
         projectiles = new ArrayList<>();
         totalWaves = numWaves;
         currentWave = 0;
-        garden = new Garden(GARDEN_HEALTH);
+        garden = new Garden(GameConfig.GARDEN_HEALTH);
 
         paths = PathFactory.createPaths(pathType);
         waves = WaveFactory.createWaves(numWaves, paths);
     }
 
-    public void startGame() {
-        currentWave = 0;
-        activeEnemies.clear();
-        projectiles.clear();
-        waveActive = false;
-    }
     // --- Update ---
     public void update() {
         if (currentWave >= waves.size() || !waveActive) return;
@@ -98,20 +91,12 @@ public class Game {
     // --- Place Tower ---
     public boolean placeTower(Tower tower) {
         if (!canPlaceTowerOnPaths(tower)) {
-            System.out.println("Cannot place tower on the path!");
             return false;
         }
         if (!canPlaceTowerOnOtherTowers(tower)) {
-            System.out.println("There's already a tower there!");
             return false;
         }
-        if (player.placeTower(tower)) {
-            System.out.println("Tower placed at " + tower.getPositionCopy() + ". Budget left: " + player.getBudget());
-            return true;
-        } else {
-            System.out.println("Not enough budget to place tower!");
-            return false;
-        }
+        return player.placeTower(tower);
     }
     private boolean canPlaceTowerOnPaths(Tower tower) {
         for (Path p : paths) {
@@ -129,15 +114,11 @@ public class Game {
     }
     // --- Next Wave ---
     public void startNextWave() {
-        if (currentWave >= waves.size()) {
-            System.out.println("All waves completed");
-            return;
-        }
+        if (currentWave >= waves.size()) return;
 
         waveActive = true;
         clearActiveObjects();
         setupCurrentWave();
-        System.out.println("Wave " + (currentWave + 1) + " started!");
     }
     private void clearActiveObjects() {
         activeEnemies.clear();

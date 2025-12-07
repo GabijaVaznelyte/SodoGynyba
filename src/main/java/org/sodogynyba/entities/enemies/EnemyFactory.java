@@ -9,7 +9,7 @@ public final class EnemyFactory {
     public static final EnemyStats FAST = new EnemyStats(7, 1, 6, 3, EnemyColors.FAST);
     public static final EnemyStats TANK = new EnemyStats(20, 1, 2, 5, EnemyColors.TANK);
 
-    private EnemyFactory() {} // prevent instantiation
+    private EnemyFactory() {}
 
     public static Enemy createEnemy(EnemyStats stats, Path path) {
         return new Enemy(stats, path);
